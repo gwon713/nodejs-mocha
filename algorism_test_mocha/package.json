@@ -1,5 +1,5 @@
 {
-  "name": "basic_test_mocha",
+  "name": "algorism_test_mocha",
   "version": "1.0.0",
   "description": "",
   "main": "./test/test.js",
