@@ -1,8 +1,7 @@
 import app from "../app";
 import request from "supertest";
 import { expect } from "chai";
-
-const req = request.agent(app);
+import path from "path";
 
 let users = [
     {id: 1, email: 'john@gmail.com', name: 'John'},
@@ -12,6 +11,7 @@ let users = [
 
 describe('GET /test',() =>{
     users.forEach(({id}, index) => {
+        const req = request.agent(app); // 매번 새로운 요청 생성
         it('['+index+'] response check / user_id : '+id, done => {
             req
             .get('/test')
@@ -29,15 +29,18 @@ describe('GET /test',() =>{
             })
         })
     })  
-})
+});
 
 
 describe('POST /test',() =>{
     users.forEach(({id, email ,name}, index) => {
+        const req = request.agent(app); // 매번 새로운 요청 생성
         it('['+index+'] response check/ user_id : '+id, done => {
             req
             .post('/test')
-            .set('Content-Type', 'application/json')
+            // .set('Content-Type', 'application/json')
+            // .set('Accept', 'application/json')
+            // .type('application/json')
             .send({user_email : email, user_name : name})
             .expect(200)
             .expect('Content-Type', /json/)
@@ -54,4 +57,49 @@ describe('POST /test',() =>{
             })
         })
     });
-})
+});
+
+describe('GET /cookie',() =>{
+    users.forEach(({id, email ,name}, index) => {
+        const req = request.agent(app); // 매번 새로운 요청 생성
+        it('['+index+'] response check / user_id : '+id, done => {
+            req
+            .get('/cookie')
+            .set('Cookie', ['user_id='+id,'user_email='+email])
+            .expect(200)
+            .then( res => {
+                console.log(res.body);
+                console.log(res.header);
+                const getCookie = res.header['set-cookie'];
+                console.log(getCookie);
+                expect(res.body.success).to.equal(true);
+                done();
+            })
+            .catch( err => {
+                console.log('GET /cookie ERROR : ', err);
+                done(err);
+            })
+        })
+    })
+});
+
+/*
+describe('POST /upload/file',() =>{
+    it('response check/ user_id', done => {
+        req
+        .post('/upload/file')
+        .set('Content-Type', 'form')
+        .field('file_name','image_testfile')
+        .attach('image_file1', path.join(__dirname,'../resouce','image1.jpg'))
+        .expect(200)
+        .then( res => {
+            console.log(res.body);
+            expect(res.body.success).to.equal(true);
+            done();
+        })
+        .catch( err => {
+            console.log('POST /upload/file ERROR : ', err);
+            done(err);
+        })
+    })
+}); */

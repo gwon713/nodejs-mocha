@@ -16,7 +16,7 @@ app.get('/test', (req, res) => { // GET 응답 테스트
     res.status(200).send({
         success : true,
         query : req.query,
-        message : "test"
+        message : 'test'
     });
 });
 
@@ -24,20 +24,23 @@ app.post('/test', (req, res) => { // POST body request 테스트
     res.status(200).send({
         success : true,
         data : req.body,
-        message : "test"
+        message : 'test'
     });
 });
 
 app.get('/cookie', (req, res) => { // GET Cookie 테스트
-    req.cookie('cookie name : ',req.cookies.name);
+    res.cookie('user_id',req.cookies.user_id);
+    res.cookie('user_email',req.cookies.user_email);
     res.status(200).send({
         success : true,
-        message : "cookie"
+        cookie : req.cookies,
+        message : 'cookie'
     })
 })
 
-app.post('/upload/file',upload.single('userfile'), (req, res) => { // POST file upload 테스트
+app.post('/upload/file',upload.single('file_name'), (req, res) => { // POST file upload 테스트
     res.status(200).send({
+        success : true,
         file : req.file
     })
 })
