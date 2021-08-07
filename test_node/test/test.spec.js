@@ -38,9 +38,9 @@ describe('POST /test',() =>{
         it('['+index+'] response check/ user_id : '+id, done => {
             req
             .post('/test')
-            // .set('Content-Type', 'application/json')
-            // .set('Accept', 'application/json')
+            .set('Content-Type', 'application/json')
             // .type('application/json')
+            .set('Accept', 'application/json')
             .send({user_email : email, user_name : name})
             .expect(200)
             .expect('Content-Type', /json/)
