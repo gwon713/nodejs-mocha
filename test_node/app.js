@@ -1,8 +1,6 @@
 import express from 'express';
 import cookieParser from "cookie-parser";
-import path from 'path';
 import multer from 'multer';
-require('dotenv').config({ path: path.join(__dirname, './env/server.env') });
 
 const app = express(); 
 
