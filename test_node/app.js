@@ -23,7 +23,7 @@ app.get('/test', (req, res) => { // GET 응답 테스트
 app.post('/test', (req, res) => { // POST body request 테스트
     res.status(200).send({
         success : true,
-        body : req.body,
+        data : req.body,
         message : "test"
     });
 });

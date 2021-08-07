@@ -31,4 +31,27 @@ describe('GET /test',() =>{
     })  
 })
 
-request
+
+describe('POST /test',() =>{
+    users.forEach(({id, email ,name}, index) => {
+        it('['+index+'] response check/ user_id : '+id, done => {
+            req
+            .post('/test')
+            .set('Content-Type', 'application/json')
+            .send({user_email : email, user_name : name})
+            .expect(200)
+            .expect('Content-Type', /json/)
+            .then( res => {
+                console.log(res.body);
+                expect(res.body.data.user_email).to.equal(email);
+                expect(res.body.data.user_name).to.equal(name);
+                expect(res.body.success).to.equal(true);
+                done();
+            })
+            .catch( err => {
+                console.log('POST /test ERROR : ', err);
+                done(err);
+            })
+        })
+    });
+})
